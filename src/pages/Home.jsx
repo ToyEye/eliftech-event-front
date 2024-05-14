@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useInView } from "react-intersection-observer";
+
 import { getEvents } from "../service/api";
 import EventList from "../components/EventList/EventList";
 import Heading from "../components/Heading/Heading";
@@ -10,16 +12,18 @@ import Text from "../components/Text/Text";
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
-
   const [page, setPage] = useState(1);
-
   const [select, setSelect] = useState("name");
+
+  const [ref, inView] = useInView({
+    threshold: 1,
+  });
 
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await getEvents(page);
-        setEvents(data);
+        setEvents((prevEvents) => [...prevEvents, ...data]);
       } catch (error) {
         setError(error.message);
       }
@@ -27,6 +31,16 @@ const Home = () => {
 
     getData();
   }, [page]);
+
+  useEffect(() => {
+    if (inView) {
+      setPage((prevPage) => prevPage + 1);
+    }
+  }, [inView]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [select]);
 
   const onChange = (e) => {
     if (!e) return;
@@ -53,10 +67,11 @@ const Home = () => {
       <Heading tag="h1" text="Upcoming Events" type="main" />
       {error && <Text text={error} as="error" />}
 
-      {events.length && (
+      {events.length > 0 && (
         <>
           <Sort onChange={onChange} />
           <EventList events={sortedList} />
+          <div ref={ref}></div>
         </>
       )}
     </Section>
