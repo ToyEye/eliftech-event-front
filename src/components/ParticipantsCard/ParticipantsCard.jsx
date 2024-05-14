@@ -2,7 +2,6 @@ import GridItem from "../GridItem/GridItem";
 import styles from "./ParticipantsCard.module.scss";
 
 const ParticipantsCard = ({ fullName, email }) => {
-  console.log({ fullName, email });
   return (
     <GridItem>
       <div className={styles.wrapper}>

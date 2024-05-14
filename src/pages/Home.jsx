@@ -4,19 +4,25 @@ import EventList from "../components/EventList/EventList";
 import Heading from "../components/Heading/Heading";
 import Section from "../components/Section/Section";
 
-// import Select from "react-select";
 import Sort from "../components/Sort/Sort";
+import Text from "../components/Text/Text";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
+  const [error, setError] = useState(null);
+
   const [page, setPage] = useState(1);
 
   const [select, setSelect] = useState("name");
 
   useEffect(() => {
     const getData = async () => {
-      const data = await getEvents(page);
-      setEvents(data);
+      try {
+        const data = await getEvents(page);
+        setEvents(data);
+      } catch (error) {
+        setError(error.message);
+      }
     };
 
     getData();
@@ -45,8 +51,14 @@ const Home = () => {
   return (
     <Section>
       <Heading tag="h1" text="Upcoming Events" type="main" />
-      <Sort onChange={onChange} />
-      <EventList events={sortedList} />
+      {error && <Text text={error} as="error" />}
+
+      {events.length && (
+        <>
+          <Sort onChange={onChange} />
+          <EventList events={sortedList} />
+        </>
+      )}
     </Section>
   );
 };

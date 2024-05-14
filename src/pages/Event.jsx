@@ -1,13 +1,18 @@
 import { useParams } from "react-router-dom";
-import Section from "../components/Section/Section";
 import { useEffect, useState } from "react";
-import { getEventParticipants } from "../service/api";
+import Fuse from "fuse.js";
+
 import ParticipantsList from "../components/Participants/ParticipantsList";
+import Section from "../components/Section/Section";
 import Text from "../components/Text/Text";
+import Filter from "../components/Filter/Filter";
+
+import { getEventParticipants } from "../service/api";
 
 const Event = () => {
   const [participants, setParticipants] = useState([]);
   const [error, setError] = useState(null);
+  const [filter, setFilter] = useState("");
 
   const { id } = useParams();
 
@@ -22,9 +27,33 @@ const Event = () => {
     };
     getData();
   }, [id]);
+
+  const onChange = (e) => {
+    setFilter(e.target.value);
+  };
+
+  const filtered = () => {
+    if (!filter) return participants;
+
+    const options = {
+      keys: ["fullName", "email"],
+      threshold: 0.3,
+    };
+
+    const fuse = new Fuse(participants, options);
+    const result = fuse.search(filter);
+
+    return result.map((item) => item.item);
+  };
+
   return (
     <Section>
-      {participants && <ParticipantsList participants={participants} />}
+      <Filter onChange={onChange} />
+      {participants.length > 0 && (
+        <>
+          <ParticipantsList participants={filtered()} />
+        </>
+      )}
       {error && <Text text={error} as="error" />}
       {!participants.length && !error && (
         <Text text="There are no participants for the meeting yet" as="text" />
