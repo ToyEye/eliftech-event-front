@@ -3,9 +3,11 @@ import Section from "../components/Section/Section";
 import { useEffect, useState } from "react";
 import { getEventParticipants } from "../service/api";
 import ParticipantsList from "../components/Participants/ParticipantsList";
+import Text from "../components/Text/Text";
 
 const Event = () => {
-  const [participants, setParticipants] = useState(null);
+  const [participants, setParticipants] = useState([]);
+  const [error, setError] = useState(null);
 
   const { id } = useParams();
 
@@ -15,7 +17,7 @@ const Event = () => {
         const data = await getEventParticipants(id);
         setParticipants(data.participants);
       } catch (error) {
-        console.log(error.message);
+        setError(error.message);
       }
     };
     getData();
@@ -23,6 +25,10 @@ const Event = () => {
   return (
     <Section>
       {participants && <ParticipantsList participants={participants} />}
+      {error && <Text text={error} as="error" />}
+      {!participants.length && !error && (
+        <Text text="There are no participants for the meeting yet" as="text" />
+      )}
     </Section>
   );
 };

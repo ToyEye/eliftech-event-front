@@ -1,0 +1,13 @@
+.p {
+  font-size: 28px;
+  text-align: center;
+}
+
+.error {
+  composes: p;
+  color: red;
+}
+
+.text {
+  composes: p;
+}
