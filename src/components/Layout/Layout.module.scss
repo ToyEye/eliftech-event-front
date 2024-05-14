@@ -1,0 +1,37 @@
+.header {
+  background-color: #111827;
+  color: #e8f4f7;
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 34px;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.link {
+  display: block;
+  padding-top: 20px;
+  padding-bottom: 20px;
+
+  transition: 350ms cubic-bezier(0.19, 1, 0.22, 1);
+
+  &:is(:hover, :focus) {
+    color: #b9f1ff;
+  }
+}
+
+.active {
+  color: #b9f1ff;
+}

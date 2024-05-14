@@ -1,0 +1,24 @@
+.card_footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.cardDescr {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dataInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.dataInfo {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}

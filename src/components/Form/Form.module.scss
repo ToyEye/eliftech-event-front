@@ -1,0 +1,48 @@
+.flex_container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.card_container {
+  max-width: 448px;
+}
+
+.space-y-2 > * + * {
+  margin-top: 8px;
+}
+
+.space-y-4 > * + * {
+  margin-top: 16px;
+}
+
+.grid_container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.input_container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input_container label {
+  margin-bottom: 4px;
+}
+
+.radio_container label {
+  margin-right: 8px;
+}
+
+.radio_item {
+  display: flex;
+  align-items: center;
+  margin-right: 8px;
+}
+
+.button {
+  width: 100%;
+}
