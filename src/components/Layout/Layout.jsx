@@ -23,9 +23,9 @@ const Layout = () => {
                   Home
                 </NavLink>
               </li>
-              <li>
+              {/* <li>
                 <NavLink>Add Event</NavLink>
-              </li>
+              </li> */}
             </ul>
           </nav>
         </Container>

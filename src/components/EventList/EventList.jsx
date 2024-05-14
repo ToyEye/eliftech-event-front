@@ -5,7 +5,7 @@ const EventList = ({ events = [] }) => {
   return (
     <Grid>
       {events.map((event) => (
-        <EventCard key={event.id} {...event} />
+        <EventCard key={event._id} {...event} />
       ))}
     </Grid>
   );

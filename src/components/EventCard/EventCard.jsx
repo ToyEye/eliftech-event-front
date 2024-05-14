@@ -31,7 +31,7 @@ const EventCard = ({ title, organizer, event_date, description, _id: id }) => {
         </div>
       </div>
       <div className={style.card_footer}>
-        <Button path="#" type="outline" text="View" />
+        <Button path={`event/${id}`} type="outline" text="View" />
         <Button
           path={`event/${id}/register`}
           type="fullfield"
