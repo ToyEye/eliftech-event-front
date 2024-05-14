@@ -1,32 +1,56 @@
 import { useFormik } from "formik";
-
+import { useParams } from "react-router-dom";
 import Heading from "../Heading/Heading";
 
 import styles from "./Form.module.scss";
 
+import { addToEventSchema as validationSchema } from "../../validSchema/addToEvent";
+import Button from "../Button/Button";
+import { useEffect, useState } from "react";
+import { addForEvent, getEventParticipants } from "../../service/api";
+
 const Form = () => {
+  const [title, setTitle] = useState(null);
+
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const data = await getEventParticipants(id);
+        setTitle(data.title);
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    getData();
+  }, [id]);
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
       email: "",
       dateOfBirth: "",
-      source: "social-media",
+      source: "social media",
     },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    validationSchema,
+    onSubmit: async (values, { resetForm }) => {
+      await addForEvent(id, values);
+
+      resetForm();
     },
   });
 
   return (
     <div className={styles.flex_container}>
-      <div className="space-y-2">
-        <Heading text="Register for the Tech Conference 2023" type="subtitle" />
-        <p className="text-gray-500 dark:text-gray-400">
+      <div>
+        <Heading text={title} type="subtitle" />
+        <p>
           Fill out the form below to register for the upcoming tech conference.
         </p>
       </div>
       <div className={styles.card_container}>
-        <form onSubmit={formik.handleSubmit} className="space-y-4">
+        <form onSubmit={formik.handleSubmit} className={styles.form}>
           <div className={styles.grid_container}>
             <div className={styles.input_container}>
               <label htmlFor="fullName">Full Name</label>
@@ -38,6 +62,9 @@ const Form = () => {
                 onChange={formik.handleChange}
                 value={formik.values.fullName}
               />
+              {formik.errors.fullName && formik.touched.fullName && (
+                <p>{formik.errors.fullName}</p>
+              )}
             </div>
             <div className={styles.input_container}>
               <label htmlFor="email">Email</label>
@@ -49,6 +76,9 @@ const Form = () => {
                 onChange={formik.handleChange}
                 value={formik.values.email}
               />
+              {formik.errors.email && formik.touched.email && (
+                <p>{formik.errors.email}</p>
+              )}
             </div>
           </div>
           <div className={styles.input_container}>
@@ -60,12 +90,17 @@ const Form = () => {
               onChange={formik.handleChange}
               value={formik.values.dateOfBirth}
             />
+            {formik.errors.dateOfBirth && formik.touched.dateOfBirth && (
+              <p>{formik.errors.dateOfBirth}</p>
+            )}
           </div>
-          <div
-            className={`${styles.input_container} ${styles.radio_container}`}
-          >
+          <div className={` ${styles.radio_container}`}>
             <label>How did you hear about this event?</label>
-            <div role="group" aria-labelledby="my-radio-group">
+            <div
+              role="group"
+              aria-labelledby="radio-group"
+              className={styles.radio_wrapper}
+            >
               <div className={styles.radio_item}>
                 <input
                   id="social-media"
@@ -73,7 +108,7 @@ const Form = () => {
                   type="radio"
                   value="social-media"
                   onChange={formik.handleChange}
-                  checked={formik.values.source === "social-media"}
+                  checked={formik.values.source === "social media"}
                 />
                 <label htmlFor="social-media">Social Media</label>
               </div>
@@ -90,20 +125,19 @@ const Form = () => {
               </div>
               <div className={styles.radio_item}>
                 <input
-                  id="found-myself"
+                  id="found myself"
                   name="source"
                   type="radio"
-                  value="found-myself"
+                  value="found myself"
                   onChange={formik.handleChange}
-                  checked={formik.values.source === "found-myself"}
+                  checked={formik.values.source === "found myself"}
                 />
-                <label htmlFor="found-myself">Found myself</label>
+                <label htmlFor="foundmyself">Found myself</label>
               </div>
             </div>
           </div>
-          <button className="w-full" type="submit">
-            Register
-          </button>
+
+          <Button as="button" text="Register" type="fullfield" />
         </form>
       </div>
     </div>
@@ -111,68 +145,3 @@ const Form = () => {
 };
 
 export default Form;
-
-// <form onSubmit={formik.handleSubmit}>
-//   <label htmlFor="firstName">First Name</label>
-//   <input
-//     id="fullname"
-//     name="fullname"
-//     type="text"
-//     onChange={formik.handleChange}
-//     value={formik.values.firstName}
-//   />
-//   <label htmlFor="lastName">Last Name</label>
-//   <input
-//     id="email"
-//     name="email"
-//     type="email"
-//     onChange={formik.handleChange}
-//     value={formik.values.lastName}
-//   />
-//   <label htmlFor="email">Email Address</label>
-//   <input
-//     id="email"
-//     name="email"
-//     type="email"
-//     onChange={formik.handleChange}
-//     value={formik.values.email}
-//   />
-//   <Heading
-//     type="subtitle"
-//     tag="h3"
-//     text="Where did you hear about this event"
-//   />
-//   <div>
-//     <div>
-//       <label htmlFor="social">Social Media</label>
-//       <input
-//         id="social"
-//         name="source"
-//         type="radio"
-//         onChange={formik.handleChange}
-//         value={formik.values.source}
-//       />
-//     </div>
-//     <div>
-//       <label htmlFor="friends">Friends</label>
-//       <input
-//         id="friends"
-//         name="source"
-//         type="radio"
-//         onChange={formik.handleChange}
-//         value={formik.values.source}
-//       />
-//     </div>
-//     <div>
-//       <label htmlFor="myself">Found myself</label>
-//       <input
-//         id="myself"
-//         name="source"
-//         type="radio"
-//         onChange={formik.handleChange}
-//         value={formik.values.source}
-//       />
-//     </div>
-//   </div>
-//   <button type="submit">Submit</button>
-// </form>;

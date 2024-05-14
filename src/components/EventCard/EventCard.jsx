@@ -36,6 +36,7 @@ const EventCard = ({ title, organizer, event_date, description, _id: id }) => {
           path={`event/${id}/register`}
           type="fullfield"
           text="Register"
+          title={title}
         />
       </div>
     </GridItem>
