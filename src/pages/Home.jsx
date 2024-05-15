@@ -16,7 +16,7 @@ const Home = () => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(false);
-  const [select, setSelect] = useState("name");
+  const [select, setSelect] = useState("");
   const [loading, setIsloading] = useState(false);
 
   const [ref, inView] = useInView({
@@ -52,12 +52,9 @@ const Home = () => {
     }
   }, [inView]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [select]);
-
   const onChange = (e) => {
     if (!e) return;
+
     setSelect(e.value);
   };
 
