@@ -8,11 +8,13 @@ import Section from "../components/Section/Section";
 
 import Sort from "../components/Sort/Sort";
 import Text from "../components/Text/Text";
+import { notify } from "../helpers/helpers";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(false);
   const [select, setSelect] = useState("name");
 
   const [ref, inView] = useInView({
@@ -23,7 +25,14 @@ const Home = () => {
     const getData = async () => {
       try {
         const data = await getEvents(page);
-        setEvents((prevEvents) => [...prevEvents, ...data]);
+        setEvents((prevEvents) => [...prevEvents, ...data.events]);
+
+        const isLoadmore = page < Math.ceil(data.totalEvents / 9);
+
+        setTotalPages(isLoadmore);
+        if (!isLoadmore) {
+          notify("Events are over");
+        }
       } catch (error) {
         setError(error.message);
       }
@@ -71,7 +80,7 @@ const Home = () => {
         <>
           <Sort onChange={onChange} />
           <EventList events={sortedList} />
-          <div ref={ref}></div>
+          {totalPages && <div ref={ref}></div>}
         </>
       )}
     </Section>
