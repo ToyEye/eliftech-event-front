@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFormik } from "formik";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import Heading from "../Heading/Heading";
 import Button from "../Button/Button";
@@ -17,6 +17,7 @@ const Form = () => {
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!id) return;
@@ -45,7 +46,7 @@ const Form = () => {
     validationSchema,
     onSubmit: async (values, { resetForm }) => {
       await addForEvent(id, values);
-
+      navigate(`/event/${id}`);
       resetForm();
     },
   });

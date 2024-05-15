@@ -9,6 +9,7 @@ import Filter from "../components/Filter/Filter";
 
 import { getEventParticipants } from "../service/api";
 import Diagram from "../components/Diagram/Diagram";
+import GoBackBtn from "../components/GoBackBtn/GoBackBtn";
 
 const Event = () => {
   const [participants, setParticipants] = useState([]);
@@ -49,6 +50,7 @@ const Event = () => {
 
   return (
     <Section>
+      <GoBackBtn />
       {participants.length > 0 && (
         <>
           <Filter onChange={onChange} />
