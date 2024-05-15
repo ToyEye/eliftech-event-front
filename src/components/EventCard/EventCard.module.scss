@@ -22,3 +22,12 @@
   gap: 6px;
   align-items: center;
 }
+
+.participants {
+  display: flex;
+  gap: 5px;
+
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}

@@ -3,7 +3,7 @@ import clsx from "clsx";
 
 import css from "./Button.module.scss";
 
-const Button = ({ path, text, type, as, title = "" }) => {
+const Button = ({ path, text, type, as }) => {
   const style = clsx(
     css.button,
     { [css.outline]: type === "outline" },
@@ -13,13 +13,13 @@ const Button = ({ path, text, type, as, title = "" }) => {
   if (as === "button") {
     return (
       <button type="submit" className={style}>
-        {text}{" "}
+        {text}
       </button>
     );
   }
 
   return (
-    <Link to={path} className={style} state={{ title }}>
+    <Link to={path} className={style}>
       {text}
     </Link>
   );
