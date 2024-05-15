@@ -1,26 +1,35 @@
+import { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
-import Heading from "../Heading/Heading";
 
-import styles from "./Form.module.scss";
+import Heading from "../Heading/Heading";
+import Button from "../Button/Button";
+import Text from "../Text/Text";
 
 import { addToEventSchema as validationSchema } from "../../validSchema/addToEvent";
-import Button from "../Button/Button";
-import { useEffect, useState } from "react";
 import { addForEvent, getEventParticipants } from "../../service/api";
+
+import styles from "./Form.module.scss";
+import Loader from "../Loader/Loader";
 
 const Form = () => {
   const [title, setTitle] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
 
   useEffect(() => {
+    if (!id) return;
+
     const getData = async () => {
+      setLoading(true);
       try {
         const data = await getEventParticipants(id);
         setTitle(data.title);
       } catch (error) {
         console.log(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     getData();
@@ -45,9 +54,10 @@ const Form = () => {
     <div className={styles.flex_container}>
       <div>
         <Heading text={title} type="subtitle" />
-        <p>
-          Fill out the form below to register for the upcoming tech conference.
-        </p>
+        <Text
+          text=" Fill out the form below to register for the upcoming tech conference."
+          as="secondary"
+        />
       </div>
       <div className={styles.card_container}>
         <form onSubmit={formik.handleSubmit} className={styles.form}>
@@ -137,7 +147,11 @@ const Form = () => {
             </div>
           </div>
 
-          <Button as="button" text="Register" type="fullfield" />
+          <Button
+            as="button"
+            text={loading ? <Loader /> : "Register"}
+            type="fullfield"
+          />
         </form>
       </div>
     </div>

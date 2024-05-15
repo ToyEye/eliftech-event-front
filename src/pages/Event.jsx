@@ -49,16 +49,19 @@ const Event = () => {
 
   return (
     <Section>
-      <Filter onChange={onChange} />
       {participants.length > 0 && (
         <>
+          <Filter onChange={onChange} />
           <ParticipantsList participants={filtered()} />
           <Diagram participants={filtered()} />
         </>
       )}
       {error && <Text text={error} as="error" />}
       {!participants.length && !error && (
-        <Text text="There are no participants for the meeting yet" as="text" />
+        <Text
+          text="There are no participants for the meeting yet"
+          as="primary"
+        />
       )}
     </Section>
   );

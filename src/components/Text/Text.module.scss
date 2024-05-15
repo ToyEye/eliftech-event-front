@@ -3,11 +3,26 @@
   text-align: center;
 }
 
+.text {
+  composes: p;
+}
+
+.primary {
+  composes: p;
+  font-size: 26px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.secondary {
+  font-size: 14px;
+  text-align: left;
+}
+
 .error {
   composes: p;
   color: red;
-}
-
-.text {
-  composes: p;
 }
