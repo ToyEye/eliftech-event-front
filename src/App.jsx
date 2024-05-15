@@ -1,5 +1,5 @@
 import { lazy } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import Layout from "./components/Layout/Layout";
 import { Toaster } from "react-hot-toast";
 
@@ -16,6 +16,7 @@ const App = () => {
           <Route path="event/:id" element={<Event />} />
           <Route path="event/:id/register" element={<Register />} />
         </Route>
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Toaster />
     </>
