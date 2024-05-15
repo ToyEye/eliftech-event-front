@@ -8,6 +8,7 @@ import Text from "../components/Text/Text";
 import Filter from "../components/Filter/Filter";
 
 import { getEventParticipants } from "../service/api";
+import Diagram from "../components/Diagram/Diagram";
 
 const Event = () => {
   const [participants, setParticipants] = useState([]);
@@ -52,6 +53,7 @@ const Event = () => {
       {participants.length > 0 && (
         <>
           <ParticipantsList participants={filtered()} />
+          <Diagram participants={filtered()} />
         </>
       )}
       {error && <Text text={error} as="error" />}
