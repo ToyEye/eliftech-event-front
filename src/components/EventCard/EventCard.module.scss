@@ -31,3 +31,39 @@
   top: 10px;
   right: 10px;
 }
+
+.skeletonWrapper {
+  width: 288px;
+  padding: 16px;
+  text-align: center;
+  border-radius: 12.8px;
+  background-color: white;
+}
+
+.cardSkeleton {
+  background-image: linear-gradient(
+    90deg,
+    #ccc 0px,
+    rgb(229 229 229 / 90%) 40px,
+    #ccc 80px
+  );
+  background-size: 300%;
+  background-position: 100% 0;
+  border-radius: inherit;
+  animation: shimmer 1.5s infinite;
+}
+
+.skeletonTitle {
+  height: 15px;
+  margin-bottom: 15px;
+}
+
+.skeletonDescription {
+  height: 100px;
+}
+
+@keyframes shimmer {
+  to {
+    background-position: -100% 0;
+  }
+}

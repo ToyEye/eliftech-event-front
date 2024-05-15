@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { getEvents } from "../service/api";
 import EventList from "../components/EventList/EventList";
 import Heading from "../components/Heading/Heading";
 import Section from "../components/Section/Section";
-
 import Sort from "../components/Sort/Sort";
 import Text from "../components/Text/Text";
+
+import { getEvents } from "../service/api";
 import { notify } from "../helpers/helpers";
+import EventListSkeleton from "../components/EventList/EventListSkeleton";
 
 const Home = () => {
   const [events, setEvents] = useState([]);
@@ -16,6 +17,7 @@ const Home = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(false);
   const [select, setSelect] = useState("name");
+  const [loading, setIsloading] = useState(false);
 
   const [ref, inView] = useInView({
     threshold: 1,
@@ -23,6 +25,7 @@ const Home = () => {
 
   useEffect(() => {
     const getData = async () => {
+      setIsloading(true);
       try {
         const data = await getEvents(page);
         setEvents((prevEvents) => [...prevEvents, ...data.events]);
@@ -35,6 +38,8 @@ const Home = () => {
         }
       } catch (error) {
         setError(error.message);
+      } finally {
+        setIsloading(false);
       }
     };
 
@@ -83,6 +88,7 @@ const Home = () => {
           {totalPages && <div ref={ref}></div>}
         </>
       )}
+      {loading && <EventListSkeleton />}
     </Section>
   );
 };
