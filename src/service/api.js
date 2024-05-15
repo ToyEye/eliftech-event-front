@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:3001/api/events";
+axios.defaults.baseURL = "https://eliftech-event-back.onrender.com/api/events";
 
 export const getEvents = async (page) => {
   const { data } = await axios.get(`/?page=${page}&limit=10`);
